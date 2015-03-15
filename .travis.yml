@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - 0.10
+  - 0.12
+sudo: false
+notifications:
+notifications:
+  email:
+    recipients:
+      - ladislav@prskavec.net
+    on_success: change
+    on_failure: always
+cache:
+  directories:
+    - node_modules
