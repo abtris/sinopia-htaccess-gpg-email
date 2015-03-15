@@ -1,0 +1,16 @@
+{
+  "name": "send-gpg-email",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "openpgp": "^0.11.1",
+    "sinopia-htpasswd": "^0.4.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
