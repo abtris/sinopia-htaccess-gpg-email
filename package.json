@@ -1,7 +1,7 @@
 {
-  "name": "send-gpg-email",
-  "version": "1.0.0",
-  "description": "",
+  "name": "sinopia-htaccess-gpg-email",
+  "version": "0.1.0",
+  "description": "Generate password in htaccess format, encrypt with GPG and send via SendGrid API to users.",
   "main": "index.js",
   "dependencies": {
     "crypt3": "^0.1.7",
@@ -18,6 +18,6 @@
   "scripts": {
     "test": "mocha test/*_test.coffee -R spec -r should --compilers coffee:coffee-script/register"
   },
-  "author": "",
+  "author": "Ladislav Prskavec <ladislav@prskavec.net>",
   "license": "MIT"
 }
