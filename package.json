@@ -4,12 +4,19 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "openpgp": "^0.11.1",
-    "sinopia-htpasswd": "^0.4.5"
+    "crypt3": "^0.1.7",
+    "crypto": "0.0.3",
+    "openpgp": "^0.11.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "coffee-script": "^1.9.1",
+    "faker": "^2.1.2",
+    "mocha": "^2.2.1",
+    "mocha-cakes": "^0.9.0",
+    "should": "^5.2.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/*_test.coffee -R spec -r should --compilers coffee:coffee-script/register"
   },
   "author": "",
   "license": "MIT"
