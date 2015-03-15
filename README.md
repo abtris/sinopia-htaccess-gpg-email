@@ -3,3 +3,9 @@
 Generate password in htaccess format and send via GPG to users
 
 
+## Test user
+
+Name: Test Test
+email: example@test.com
+password: 123456
+
