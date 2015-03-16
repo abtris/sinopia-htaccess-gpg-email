@@ -11,9 +11,9 @@ password: 123456
 
 ## Usage
 
-Use [SendGrid](https://sendgrid.com/docs/Code_Examples/nodejs.html) API to send email in GPG with password to Sinopia.
+Use [MailGun](http://www.mailgun.com/) API to send email in GPG with password to Sinopia.
 
-  export SENDGRID_API_USER=XXXXX
-  export SENDGRIND_API_KEY=XXXX
+    export MAILGUN_API_KEY=XXXXX
+    export MAILGUN_DOMAIN=XXXXX
 
-  send-gpg-email INPUT_FILE_WITH_EMAILS PATH_TO_SINOPIA_HTACCESS_FILE
+    send-gpg-email INPUT_FILE_WITH_EMAILS PATH_TO_SINOPIA_HTACCESS_FILE
