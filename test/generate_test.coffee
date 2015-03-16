@@ -1,5 +1,6 @@
 require 'mocha-cakes'
 faker = require 'faker'
+assert = require 'assert'
 htpass = require '../src/generate'
 
 Feature 'Test generate htpassd password', ->
@@ -7,13 +8,14 @@ Feature 'Test generate htpassd password', ->
   Scenario 'Generate password for dummy user', ->
 
     user = null
-    hashedPassword = null
+    password = '123456'
+    hashedLine = null
 
     Given 'Generate user', ->
       user = faker.name.firstName().toLowerCase()
 
     And 'and generate password', ->
-      hashedPassword = htpass.generate_htpasswd(user, '123456')
+      hashedLine = htpass.generate_htpasswd user, password
 
     Then 'Check password', ->
-      hashedPassword.should.eql "#{user}:$63FxIFcQfKek"
+      assert.ok htpass.verify_password(user, password, hashedLine.split(":")[1])
