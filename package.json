@@ -18,6 +18,7 @@
     "should": "^5.2.0"
   },
   "scripts": {
+    "prepublish": "scripts/build",
     "test": "mocha test/*_test.coffee --timeout 15000 -R spec -r should --compilers coffee:coffee-script/register"
   },
   "author": "Ladislav Prskavec <ladislav@prskavec.net>",
