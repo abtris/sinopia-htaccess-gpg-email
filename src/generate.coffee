@@ -1,6 +1,7 @@
 crypto = require 'crypto'
 crypt3 = require 'crypt3'
 
+# Generate htpasswd password
 exports.generate_htpasswd = (user, passwd) ->
   if user isnt encodeURIComponent(user)
     err = Error('username shouldn\'t contain non-uri-safe characters')
