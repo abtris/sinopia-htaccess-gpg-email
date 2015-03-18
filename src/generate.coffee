@@ -19,3 +19,18 @@ exports.verify_password = (user, passwd, hash) ->
     crypto.createHash('sha1').update(passwd, 'binary').digest('base64') == hash.substr(5)
   else
     false
+
+exports.make_passwd = make_passwd = (n, a) ->
+  index = (Math.random() * (a.length - 1)).toFixed(0)
+  if n > 0 then a[index] + make_passwd(n - 1, a) else ''
+
+exports.randomPassword = (length = 14) ->
+  exports.make_passwd length, 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!@#$%^&*()_+'
+
+exports.generatePasswords = (users) ->
+  if Array.isArray users
+    newUsers = []
+    for user in users
+      user.password = exports.generate_htpasswd user.user, exports.randomPassword 20
+      newUsers.push user
+    return newUsers
