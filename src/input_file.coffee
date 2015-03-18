@@ -32,16 +32,15 @@ exports.downloadKey = (url, cb) ->
     if err
       console.error "Error in download key from '#{url}':", err
       return cb err
-    cb null, result
+    cb null, result if result
 
 exports.getKeys = (users, cb) ->
   newUsers = []
   if Array.isArray users
     for user in users
-      data =
-        user: user.user
-        publicKey: exports.downloadKey(user.url) or null
-      newUsers.push data if data
+      if user
+        user.publicKey = exports.downloadKey(user.url) or null
+        newUsers.push user
     cb null, newUsers
 
 exports.getUsersFromFile = (path, cb) ->
