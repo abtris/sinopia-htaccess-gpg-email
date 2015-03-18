@@ -37,11 +37,18 @@ exports.downloadKey = (url, cb) ->
 exports.getKeys = (users, cb) ->
   newUsers = []
   if Array.isArray users
-    for user in users
-      if user
-        user.publicKey = exports.downloadKey(user.url) or null
-        newUsers.push user
-    cb null, newUsers
+    async.each users, ((user, next) ->
+      if user.url
+        exports.downloadKey user.url, (err, publicKey) ->
+         if err then return next err
+         user.publicKey = publicKey
+         newUsers.push user
+         next()
+      else
+        next new Error "missing public key url #{JSON.stringify user}"
+    ), (err) ->
+      if err then return cb err
+      cb null, newUsers
 
 exports.getUsersFromFile = (path, cb) ->
   exports.getCsvFile path, (err, users) ->
