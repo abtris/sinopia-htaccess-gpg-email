@@ -5,9 +5,9 @@ Generate password in htaccess format, encrypt with GPG and send via MailGun API 
 
 ## Test user for GPG
 
-Name: Test Test
-email: example@test.com
-password: 123456
+    Name: Test Test
+    email: example@test.com
+    password: 123456
 
 ## Usage
 
