@@ -26,16 +26,27 @@ exports.downloadKey = (url, cb) ->
       request.get url, (err, response, body) ->
         if !err && response.statusCode is 200
           next null, body
+        else
+          next err
   ], (err, result) ->
-    if err then console.error "Error in download key from '#{url}':", err
+    if err
+      console.error "Error in download key from '#{url}':", err
+      return cb err
     cb null, result
 
 exports.getKeys = (users, cb) ->
-  newUsers = null
+  newUsers = []
   if Array.isArray users
     for user in users
       data =
         user: user.user
-        publicKey: exports.downloadKey user.url
-      newUsers.push data
+        publicKey: exports.downloadKey(user.url) or null
+      newUsers.push data if data
     cb null, newUsers
+
+exports.getUsersFromFile = (path, cb) ->
+  exports.getCsvFile path, (err, users) ->
+    if err then return cb err
+    exports.getKeys users, (err, usersWithKeys) ->
+      if err then return cb err
+      cb null, usersWithKeys

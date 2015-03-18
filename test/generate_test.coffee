@@ -61,5 +61,5 @@ Feature 'Test generate htpassd password', ->
         newUsers = returnedUsers
         done()
 
-    Then 'Check users', ->
+    Then 'Check keys in users', ->
       assert.deepEqual Object.keys(newUsers[0]), ['email', 'user', 'url', 'password', 'htaccess']
