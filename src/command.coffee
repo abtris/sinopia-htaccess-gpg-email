@@ -1,6 +1,28 @@
 async     = require 'async'
-inputFile = require 'input_file'
-htpass = require 'generate'
+inputFile = require './input_file'
+htpass = require './generate'
+gpg = require './gpg'
+mailgun = require './mailgun'
+
+sendEmails = (users, sender, subject, cb) ->
+  if Array.isArray users
+    async.each users, ((user, next) ->
+      if user.email
+        options =
+          recipient: user.email
+          sender: sender
+          subject: subject
+          message: user.pgpMessage
+        mailgun.sendEmail options, (err) ->
+          if err then return next err
+          next()
+      else
+        next new Error "missing email #{JSON.stringify user}"
+    ), (err) ->
+      if err then return cb err
+      cb()
+  else
+    cb new Error "Empty input array"
 
 # Command line
 exports.send = (options) ->
@@ -17,9 +39,8 @@ exports.send = (options) ->
     (users, next) -> gpg.generateEncryptedEmail users, (err, usersWithEmails) ->
       if err then return next err
       next null, usersWithEmails
-    (users, next) -> mailgun.sendEmails users, (err, results) ->
+    (users, next) -> sendEmails users, options.sender, options.subject, (err) ->
       if err then return next err
-      next null, results
-  ], (err, results) ->
-  if err then console.error "Error", err
-  console.log results
+      next()
+  ], (err) ->
+    if err then console.error "Error", err

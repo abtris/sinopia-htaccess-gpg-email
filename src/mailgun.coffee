@@ -16,7 +16,11 @@ exports.sendEmail = ({recipient, sender, subject, message}, cb) ->
     subject: subject
     text: message
 
-  mailgun.messages().send data, (err, body) ->
-    if err then return cb err
-    console.log body
+  if process.env.DEBUG
+    console.log "DEBUG", data
     cb()
+  else
+    mailgun.messages().send data, (err, body) ->
+      if err then return cb err
+      console.log body
+      cb()

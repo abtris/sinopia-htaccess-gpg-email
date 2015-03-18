@@ -12,6 +12,8 @@ program
   .description("Send email with passwords for Sinopia via MailGun API")
   .option("-i, --input <file>", "Input CSV file with emails and links to GPG keys.")
   .option("-o, --output <file>", "Output htaccess file where can be passwords stored.")
+  .option("-s, --subject <subject>", "Email subject")
+  .option("-a, --sender <sender>", "Sender email address")
   .action(function(options) {
     if (options.input && options.output) {
       command.send(options);
