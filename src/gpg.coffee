@@ -43,7 +43,7 @@ exports.generateEncryptedEmail = (users, cb) ->
          newUsers.push user
          next()
       else
-         next new Error 'missing public key'
+        next new Error "missing public key #{JSON.stringify user}"
     ), (err) ->
       if err then return cb err
       cb null, newUsers
