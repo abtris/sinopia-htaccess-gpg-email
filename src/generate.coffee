@@ -1,3 +1,4 @@
+fs = require 'fs'
 crypto = require 'crypto'
 crypt3 = require 'crypt3'
 
@@ -36,3 +37,9 @@ exports.generatePasswords = (users, cb) ->
       user.htaccess = exports.generate_htpasswd user.user, pass
       newUsers.push user
     cb null, newUsers
+
+exports.saveHtpasswd = (users, outputFile, cb) ->
+  output = []
+  for user in users
+    output.push user.user.htaccess
+  fs.writeFileSync outputFile, output.join("\n")

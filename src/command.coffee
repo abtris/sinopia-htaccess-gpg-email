@@ -35,7 +35,8 @@ exports.send = (options) ->
       next null, usersWithKeys
     (users, next) -> htpass.generatePasswords users, (err, usersWithPasswords) ->
       if err then return next err
-      next null, usersWithPasswords
+      htpass.saveHtpasswd users, options.output, (err) ->
+        next null, usersWithPasswords
     (users, next) -> gpg.generateEncryptedEmail users, (err, usersWithEmails) ->
       if err then return next err
       next null, usersWithEmails
