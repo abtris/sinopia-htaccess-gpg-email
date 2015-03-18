@@ -11,6 +11,11 @@ password: 123456
 
 ## Usage
 
+Create CSV file with emails and url to public keys as
+
+    user@company.com;http://company.com/security/public-gpg/user.asc
+
+
 Use [MailGun](http://www.mailgun.com/) API to send email in GPG with password to Sinopia.
 
     export MAILGUN_API_KEY=XXXXX
