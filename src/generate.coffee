@@ -27,10 +27,12 @@ exports.make_passwd = make_passwd = (n, a) ->
 exports.randomPassword = (length = 14) ->
   exports.make_passwd length, 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!@#$%^&*()_+'
 
-exports.generatePasswords = (users) ->
+exports.generatePasswords = (users, cb) ->
   if Array.isArray users
     newUsers = []
     for user in users
-      user.password = exports.generate_htpasswd user.user, exports.randomPassword 20
+      pass = exports.randomPassword 20
+      user.password = pass
+      user.htaccess = exports.generate_htpasswd user.user, pass
       newUsers.push user
-    return newUsers
+    cb null, newUsers

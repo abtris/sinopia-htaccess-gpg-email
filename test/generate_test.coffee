@@ -2,6 +2,7 @@ require 'mocha-cakes'
 faker = require 'faker'
 assert = require 'assert'
 htpass = require '../src/generate'
+inputFile = require '../src/input_file'
 
 Feature 'Test generate htpassd password', ->
 
@@ -42,3 +43,23 @@ Feature 'Test generate htpassd password', ->
 
     Then 'Check if content isnt same', ->
       assert.notEqual pass1, pass2
+
+  Scenario 'Generate bunch of passwords for bunch of users', ->
+
+    users = null
+    newUsers = null
+
+    Given 'Get users from file', (done) ->
+      inputFile.getCsvFile "#{__dirname}/fixtures/exampleOfInput.csv", (err, returnedUsers) ->
+        if err then return done err
+        users = returnedUsers
+        done()
+
+    And 'generate passwords', (done) ->
+      htpass.generatePasswords users, (err, returnedUsers) ->
+        if err then return done err
+        newUsers = returnedUsers
+        done()
+
+    Then 'Check users', ->
+      assert.deepEqual Object.keys(newUsers[0]), ['email', 'user', 'url', 'password', 'htaccess']

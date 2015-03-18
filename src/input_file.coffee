@@ -14,7 +14,8 @@ exports.getCsvFile = (path, cb) ->
     columns = line.split "#{COLUMN_SEPARATOR}"
     if columns[0]
       data =
-        user: columns[0]
+        email: columns[0]
+        user: columns[0].split("@")[0]
         url: columns[1]
       users.push data
   cb null, users
