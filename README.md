@@ -1,6 +1,6 @@
 # Sinopia utils [![Build Status](https://travis-ci.org/abtris/sinopia-htaccess-gpg-email.svg?branch=master)](https://travis-ci.org/abtris/sinopia-htaccess-gpg-email)
 
-Generate password in htaccess format, encrypt with GPG and send via SendGrid API to users.
+Generate password in htaccess format, encrypt with GPG and send via MailGun API to users.
 
 
 ## Test user for GPG
