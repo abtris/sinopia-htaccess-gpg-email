@@ -1,5 +1,4 @@
 fs      = require 'fs'
-mktemp  = require 'mktemp'
 request = require 'request'
 async   = require 'async'
 
@@ -14,7 +13,8 @@ exports.getCsvFile = (path, cb) ->
     columns = line.split "#{COLUMN_SEPARATOR}"
     if columns[0]
       data =
-        user: columns[0]
+        email: columns[0]
+        user: columns[0].split("@")[0]
         url: columns[1]
       users.push data
   cb null, users
@@ -25,16 +25,33 @@ exports.downloadKey = (url, cb) ->
       request.get url, (err, response, body) ->
         if !err && response.statusCode is 200
           next null, body
+        else
+          next err
   ], (err, result) ->
-    if err then console.error "Error in download key from '#{url}':", err
-    cb null, result
+    if err
+      console.error "Error in download key from '#{url}':", err
+      return cb err
+    cb null, result if result
 
 exports.getKeys = (users, cb) ->
-  newUsers = null
+  newUsers = []
   if Array.isArray users
-    for user in users
-      data =
-        user: user.user
-        publicKey: exports.downloadKey user.url
-      newUsers.push data
-    cb null, newUsers
+    async.each users, ((user, next) ->
+      if user.url
+        exports.downloadKey user.url, (err, publicKey) ->
+          if err then return next err
+          user.publicKey = publicKey
+          newUsers.push user
+          next()
+      else
+        next new Error "missing public key url #{JSON.stringify user}"
+    ), (err) ->
+      if err then return cb err
+      cb null, newUsers
+
+exports.getUsersFromFile = (path, cb) ->
+  exports.getCsvFile path, (err, users) ->
+    if err then return cb err
+    exports.getKeys users, (err, usersWithKeys) ->
+      if err then return cb err
+      cb null, usersWithKeys

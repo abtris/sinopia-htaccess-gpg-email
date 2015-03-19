@@ -18,5 +18,5 @@ exports.sendEmail = ({recipient, sender, subject, message}, cb) ->
 
   mailgun.messages().send data, (err, body) ->
     if err then return cb err
-    console.log body
+    console.log "Send email", body
     cb()
