@@ -1,6 +1,7 @@
 fs = require 'fs'
 crypto = require 'crypto'
 crypt3 = require 'crypt3'
+async = require 'async'
 
 # Generate htpasswd password
 exports.generate_htpasswd = (user, passwd) ->
@@ -40,6 +41,10 @@ exports.generatePasswords = (users, cb) ->
 
 exports.saveHtpasswd = (users, outputFile, cb) ->
   output = []
-  for user in users
-    output.push user.user.htaccess
-  fs.writeFileSync outputFile, output.join("\n")
+  async.eachSeries users, ((user, next) ->
+    output.push user.htaccess
+    next()
+  ), (err) ->
+    if err then return cb err
+    fs.writeFileSync outputFile, output.join("\n")
+    cb()

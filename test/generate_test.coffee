@@ -1,6 +1,8 @@
 require 'mocha-cakes'
 faker = require 'faker'
 assert = require 'assert'
+mktemp  = require 'mktemp'
+fs = require 'fs'
 htpass = require '../src/generate'
 inputFile = require '../src/input_file'
 
@@ -48,6 +50,7 @@ Feature 'Test generate htpassd password', ->
 
     users = null
     newUsers = null
+    tempFile = mktemp.createFileSync('XXXXX.tmp')
 
     Given 'Get users from file', (done) ->
       inputFile.getCsvFile "#{__dirname}/fixtures/exampleOfInput.csv", (err, returnedUsers) ->
@@ -61,5 +64,14 @@ Feature 'Test generate htpassd password', ->
         newUsers = returnedUsers
         done()
 
+    And 'save to file', (done) ->
+      htpass.saveHtpasswd newUsers, tempFile, (err) ->
+        if err then return done err
+        done()
+
     Then 'Check keys in users', ->
       assert.deepEqual Object.keys(newUsers[0]), ['email', 'user', 'url', 'password', 'htaccess']
+
+    Then 'Check output file', ->
+      assert.equal 4, fs.readFileSync(tempFile).toString().split("\n").length
+      fs.unlinkSync tempFile

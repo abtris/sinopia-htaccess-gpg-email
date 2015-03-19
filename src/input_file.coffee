@@ -1,5 +1,4 @@
 fs      = require 'fs'
-mktemp  = require 'mktemp'
 request = require 'request'
 async   = require 'async'
 
@@ -40,10 +39,10 @@ exports.getKeys = (users, cb) ->
     async.each users, ((user, next) ->
       if user.url
         exports.downloadKey user.url, (err, publicKey) ->
-         if err then return next err
-         user.publicKey = publicKey
-         newUsers.push user
-         next()
+          if err then return next err
+          user.publicKey = publicKey
+          newUsers.push user
+          next()
       else
         next new Error "missing public key url #{JSON.stringify user}"
     ), (err) ->
