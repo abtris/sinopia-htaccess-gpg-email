@@ -1,6 +1,6 @@
 {
   "name": "sinopia-htaccess-gpg-email",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Generate password in htaccess format, encrypt with GPG and send via MailGun API to users.",
   "homepage": "https://github.com/abtris/sinopia-htaccess-gpg-email",
   "license": "MIT",

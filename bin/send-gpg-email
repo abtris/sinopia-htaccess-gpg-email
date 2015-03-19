@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 var path = require('path');
 var program = require('commander');
-var parsePackageJson = require('../lib/parsePackageJson');
+var parsePackageJson = require(path.join(__dirname, '../lib/parsePackageJson'));
 var version = parsePackageJson(path.join(__dirname, '../package.json'));
-var command = require('../lib/command');
+var command = require(path.join(__dirname, '../lib/command'));
 
 program.version(version)
 
