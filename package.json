@@ -36,6 +36,9 @@
     "prepublish": "scripts/build",
     "test": "mocha test/*_test.coffee --timeout 10000 -R spec -r should --compilers coffee:coffee-script/register"
   },
+  "bin": {
+    "send-gpg-email": "./bin/send-gpg-email"
+  },
   "keywords": [
     "email",
     "mailgun",
