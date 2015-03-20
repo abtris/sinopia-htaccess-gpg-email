@@ -21,4 +21,7 @@ Use [MailGun](http://www.mailgun.com/) API to send email in GPG with password to
     export MAILGUN_API_KEY=XXXXX
     export MAILGUN_DOMAIN=XXXXX
 
-    send-gpg-email INPUT_FILE_WITH_EMAILS PATH_TO_SINOPIA_HTACCESS_FILE
+    send-gpg-email send -i INPUT_FILE_WITH_EMAILS -o PATH_TO_SINOPIA_HTACCESS_FILE -s "Your password"  -a "sender@email.com"
+
+or
+    send-gpg-email generate -i INPUT_FILE_WITH_EMAILS -o PATH_TO_SINOPIA_HTACCESS_FILE
