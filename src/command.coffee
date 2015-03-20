@@ -24,7 +24,7 @@ sendEmails = (users, sender, subject, cb) ->
   else
     cb new Error "Empty input array"
 
-# Command line
+# Send password via email
 exports.send = (options) ->
   async.waterfall [
     (next) -> inputFile.getCsvFile options.input, (err, returnedUsers) ->
@@ -45,3 +45,19 @@ exports.send = (options) ->
       next()
   ], (err) ->
     if err then console.error "Error", err
+# Generate and print to output
+exports.generate = (options) ->
+  async.waterfall [
+    (next) -> inputFile.getCsvFile options.input, (err, returnedUsers) ->
+      if err then return next err
+      next null, returnedUsers
+    (users, next) -> inputFile.getKeys users, (err, usersWithKeys) ->
+      if err then return next err
+      next null, usersWithKeys
+    (users, next) -> htpass.generatePasswords users, (err, usersWithPasswords) ->
+      if err then return next err
+      htpass.saveHtpasswd users, options.output, (err) ->
+        next null, usersWithPasswords
+  ], (err, results) ->
+    if err then console.error "Error", err
+    console.log results

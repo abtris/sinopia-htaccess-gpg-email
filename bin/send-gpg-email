@@ -22,5 +22,19 @@ program
     }
   })
 
+program
+  .command('generate')
+  .description("Generate passwords for Sinopia and print to stdout")
+  .option("-i, --input <file>", "Input CSV file with emails and links to GPG keys.")
+  .option("-o, --output <file>", "Output htaccess file where can be passwords stored.")
+  .action(function(options) {
+    if (options.input && options.output) {
+      command.generate(options);
+    } else {
+      console.log("Missing input, output parameters");
+    }
+  })
+
+
 program.parse(process.argv);
 if (!program.args.length) program.help();
