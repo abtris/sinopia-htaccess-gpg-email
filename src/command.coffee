@@ -2,30 +2,31 @@ async     = require 'async'
 inputFile = require './input_file'
 htpass = require './generate'
 gpg = require './gpg'
-mailgun = require './mailgun'
-
-sendEmails = (users, sender, subject, cb) ->
-  if Array.isArray users
-    async.each users, ((user, next) ->
-      if user.email
-        options =
-          recipient: user.email
-          sender: sender
-          subject: subject
-          message: user.pgpMessage
-        mailgun.sendEmail options, (err) ->
-          if err then return next err
-          next()
-      else
-        next new Error "missing email #{JSON.stringify user}"
-    ), (err) ->
-      if err then return cb err
-      cb()
-  else
-    cb new Error "Empty input array"
 
 # Send password via email
 exports.send = (options) ->
+  mailgun = require './mailgun'
+
+  sendEmails = (users, sender, subject, cb) ->
+    if Array.isArray users
+      async.each users, ((user, next) ->
+        if user.email
+          options =
+            recipient: user.email
+            sender: sender
+            subject: subject
+            message: user.pgpMessage
+          mailgun.sendEmail options, (err) ->
+            if err then return next err
+            next()
+        else
+          next new Error "missing email #{JSON.stringify user}"
+      ), (err) ->
+        if err then return cb err
+        cb()
+    else
+      cb new Error "Empty input array"
+
   async.waterfall [
     (next) -> inputFile.getCsvFile options.input, (err, returnedUsers) ->
       if err then return next err
