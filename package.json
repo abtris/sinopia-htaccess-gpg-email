@@ -1,7 +1,7 @@
 {
   "name": "sinopia-htaccess-gpg-email",
-  "version": "0.1.10",
-  "description": "Generate password in htaccess format, encrypt with GPG and send via MailGun API to users.",
+  "version": "1.0.0",
+  "description": "Generate password in htaccess format.",
   "homepage": "https://github.com/abtris/sinopia-htaccess-gpg-email",
   "license": "MIT",
   "repository": {
@@ -12,29 +12,23 @@
     "url": "https://github.com/abtris/sinopia-htaccess-gpg-email/issues"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 6"
   },
   "dependencies": {
-    "async": "^0.9.0",
-    "commander": "^2.7.1",
-    "crypt3": "^0.1.7",
-    "crypto": "0.0.3",
-    "mailgun-js": "^0.6.8",
+    "async": "^2.6.0",
+    "commander": "^2.15.1",
     "mktemp": "^0.4.0",
-    "openpgp": "^0.11.1",
-    "request": "^2.53.0"
+    "request": "^2.85.0",
+    "openpgp": "^3.0.9"
   },
   "devDependencies": {
-    "assert": "^1.3.0",
-    "coffee-script": "^1.9.1",
-    "faker": "^2.1.2",
-    "mocha": "^2.2.1",
-    "mocha-cakes": "^0.9.0",
-    "should": "^5.2.0"
+    "assert": "^1.4.1",
+    "faker": "^4.1.0",
+    "mocha": "^5.1.1",
+    "should": "^13.2.1"
   },
   "scripts": {
-    "prepublish": "scripts/build",
-    "test": "mocha test/*_test.coffee --timeout 10000 -R spec -r should --compilers coffee:coffee-script/register"
+    "test": "mocha test/*_test.js --timeout 10000 -R spec -r should"
   },
   "bin": {
     "send-gpg-email": "./bin/send-gpg-email"

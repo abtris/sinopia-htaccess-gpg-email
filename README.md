@@ -1,7 +1,8 @@
-# Sinopia utils [![Build Status](https://travis-ci.org/abtris/sinopia-htaccess-gpg-email.svg?branch=master)](https://travis-ci.org/abtris/sinopia-htaccess-gpg-email)
+# Sinopia utils
 
-Generate password in htaccess format, encrypt with GPG and send via MailGun API to users.
+[![npm version](https://badge.fury.io/js/sinopia-htaccess-gpg-email.svg)](https://badge.fury.io/js/sinopia-htaccess-gpg-email) [![Build Status](https://travis-ci.org/abtris/sinopia-htaccess-gpg-email.svg?branch=master)](https://travis-ci.org/abtris/sinopia-htaccess-gpg-email)
 
+Generate password in htaccess format.
 
 ## Test user for GPG
 
@@ -11,18 +12,14 @@ Generate password in htaccess format, encrypt with GPG and send via MailGun API 
 
 ## Usage
 
-Create CSV file with emails and url to public keys as
+Create CSV file with emails:
 
-    user@company.com;http://company.com/security/public-gpg/user.asc
+```
+user@company.com;http://company.com/security/public-gpg/user.asc
+```
 
+run generate command:
 
-Use [MailGun](http://www.mailgun.com/) API to send email in GPG with password to Sinopia.
-
-    export MAILGUN_API_KEY=XXXXX
-    export MAILGUN_DOMAIN=XXXXX
-
-    send-gpg-email send -i INPUT_FILE_WITH_EMAILS -o PATH_TO_SINOPIA_HTACCESS_FILE -s "Your password"  -a "sender@email.com"
-
-or
-
-    send-gpg-email generate -i INPUT_FILE_WITH_EMAILS -o PATH_TO_SINOPIA_HTACCESS_FILE
+```
+./bin/send-gpg-email generate -i INPUT_FILE_WITH_EMAILS
+```
