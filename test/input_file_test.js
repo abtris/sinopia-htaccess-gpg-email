@@ -4,56 +4,49 @@ const fs     = require('fs');
 
 const inputFile = require('../lib/input_file');
 
-// Feature('Input file tests', function() {
+describe('Input file tests', () => {
 
-//   Scenario('Get input file from fixtures', function() {
+  describe('Get input file from fixtures', () => {
 
-//     let users = null;
+    let users = null;
 
-//     Given('Read file', done =>
-//       inputFile.getCsvFile(`${__dirname}/fixtures/exampleOfInput.csv`, function(err, returnedUsers) {
-//         if (err) { return done(err); }
-//         users = returnedUsers;
-//         return done();
-//       })
-//     );
+    describe('Read file', () => {
+      inputFile.getCsvFile(`${__dirname}/fixtures/exampleOfInput.csv`, (err, returnedUsers) => {
+        if (err) { return err; }
+        users = returnedUsers;
+        it('Check users', () => assert.ok(users.length === 4));
+      });
+    });
 
-//     return Then('Check users', () => assert.ok(users.length === 4));
-//   });
+  });
 
-//   Scenario('Get input file with custom separator', function() {
+  describe('Get input file with custom separator', () => {
+    let users = null;
+    process.env.COLUMN_SEPARATOR = "|";
+    inputFile.getCsvFile(`${__dirname}/fixtures/changeSeparator.csv`, (err, returnedUsers) => {
+      if (err) { return err; }
+      users = returnedUsers;
+      it('Check users', () => assert.ok(users.length === 3));
+    });
+  });
 
-//     let users = null;
+  describe('Download file from url', () => {
 
-//     Given('Read file', function(done) {
-//       process.env.COLUMN_SEPARATOR = "|";
-//       return inputFile.getCsvFile(`${__dirname}/fixtures/changeSeparator.csv`, function(err, returnedUsers) {
-//         if (err) { return done(err); }
-//         users = returnedUsers;
-//         return done();
-//       });
-//     });
+    let public_key_file = null;
+    let server = null;
 
-//     return Then('Check users', () => assert.ok(users.length === 3));
-//   });
+    const public_key = fs.readFileSync(`${__dirname}/../assets/public_key`);
+    before( (done) => {
+      server = http.createServer((req, res) => {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        return res.end(public_key);
+      }).listen(9615);
 
-//   return Scenario('Download file from url', function() {
-
-//     let public_key_file = null;
-
-//     Given('Create http server with public key', function(done) {
-//       const public_key = fs.readFileSync(`${__dirname}/../assets/public_key`);
-//       http.createServer( function(req, res) {
-//         res.writeHead(200, {'Content-Type': 'text/plain'});
-//         return res.end(public_key);
-//       }).listen(9615);
-
-//       return inputFile.downloadKey("http://localhost:9615/", function(err, body) {
-//         public_key_file = body;
-//         return done(err);
-//       });
-//     });
-
-//     return Then('Test donwloaded file', () => public_key_file.should.match(/^-----BEGIN PGP PUBLIC KEY BLOCK-----/));
-//   });
-// });
+      inputFile.downloadKey("http://localhost:9615/", (err, body) => {
+        public_key_file = body;
+        server.close(() => done(err));
+      });
+    });
+    it('Test downloaded file', () => public_key_file.should.match(/^-----BEGIN PGP PUBLIC KEY BLOCK-----/));
+  });
+});
