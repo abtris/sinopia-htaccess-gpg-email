@@ -1,5 +1,7 @@
 # Sinopia utils [![Build Status](https://travis-ci.org/abtris/sinopia-htaccess-gpg-email.svg?branch=master)](https://travis-ci.org/abtris/sinopia-htaccess-gpg-email)
 
+[![npm version](https://badge.fury.io/js/sinopia-htaccess-gpg-email.svg)](https://badge.fury.io/js/sinopia-htaccess-gpg-email)
+
 Generate password in htaccess format.
 
 ## Test user for GPG
