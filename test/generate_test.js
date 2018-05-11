@@ -19,61 +19,45 @@ describe('Test generate htpassd password', () => {
     it('Check password', () => assert.ok(htpass.verify_password(user, password, hashedLine.split(":")[1])));
   });
 
-//   Scenario('Generate dummy password', function() {
+  describe('Generate dummy password', () => {
 
-//     let pass1 = null;
-//     let pass2 = null;
-//     let pass3 = null;
+    let pass1 = htpass.randomPassword();
+    let pass2 = htpass.randomPassword();
+    let pass3 = htpass.randomPassword(20);
 
-//     Given('Generate random password 1', () => pass1 = htpass.randomPassword());
+    it('Check passwords length', () => {
+      assert.equal(pass1.length, pass2.length);
+      assert.notEqual(pass1.length, pass3.length);
+      assert.notEqual(pass2.length, pass3.length);
+    });
 
-//     And('and generate password 2', () => pass2 = htpass.randomPassword());
+    it('Check if content isnt same', () => assert.notEqual(pass1, pass2));
+  });
 
-//     And('and generate password 3 with another length', () => pass3 = htpass.randomPassword(20));
+  describe('Generate bunch of passwords for bunch of users', () => {
 
-//     Then('Check passwords length', function() {
-//       assert.equal(pass1.length, pass2.length);
-//       assert.notEqual(pass1.length, pass3.length);
-//       return assert.notEqual(pass2.length, pass3.length);
-//     });
+    let users = null;
+    let newUsers = null;
+    const tempFile = mktemp.createFileSync('XXXXX.tmp');
 
-//     return Then('Check if content isnt same', () => assert.notEqual(pass1, pass2));
-//   });
+    describe('Get users from file', (done) => {
+      inputFile.getCsvFile(`${__dirname}/fixtures/exampleOfInput.csv`, (err, returnedUsers) => {
+        if (err) { return done(err); }
+        users = returnedUsers;
+        htpass.generatePasswords(users, function (err, returnedUsers) {
+          if (err) { return done(err); }
+          newUsers = returnedUsers;
+          htpass.saveHtpasswd(newUsers, tempFile, function (err) {
+            if (err) { return done(err); }
+            it('Check keys in users', () => assert.deepEqual(Object.keys(newUsers[0]), ['email', 'user', 'url', 'password', 'htaccess']));
 
-//   return Scenario('Generate bunch of passwords for bunch of users', function() {
-
-//     let users = null;
-//     let newUsers = null;
-//     const tempFile = mktemp.createFileSync('XXXXX.tmp');
-
-//     Given('Get users from file', done =>
-//       inputFile.getCsvFile(`${__dirname}/fixtures/exampleOfInput.csv`, function(err, returnedUsers) {
-//         if (err) { return done(err); }
-//         users = returnedUsers;
-//         return done();
-//       })
-//     );
-
-//     And('generate passwords', done =>
-//       htpass.generatePasswords(users, function(err, returnedUsers) {
-//         if (err) { return done(err); }
-//         newUsers = returnedUsers;
-//         return done();
-//       })
-//     );
-
-//     And('save to file', done =>
-//       htpass.saveHtpasswd(newUsers, tempFile, function(err) {
-//         if (err) { return done(err); }
-//         return done();
-//       })
-//     );
-
-//     Then('Check keys in users', () => assert.deepEqual(Object.keys(newUsers[0]), ['email', 'user', 'url', 'password', 'htaccess']));
-
-//     return Then('Check output file', function() {
-//       assert.equal(4, fs.readFileSync(tempFile).toString().split("\n").length);
-//       return fs.unlinkSync(tempFile);
-//     });
-//   });
+            it('Check output file', () => {
+              assert.equal(4, fs.readFileSync(tempFile).toString().split("\n").length);
+              fs.unlinkSync(tempFile);
+            });
+          });
+        });
+      });
+    });
+  });
 });
