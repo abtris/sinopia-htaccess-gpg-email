@@ -19,7 +19,7 @@
     "commander": "^2.15.1",
     "mktemp": "^0.4.0",
     "request": "^2.85.0",
-    "openpgp": "^3.0.9"
+    "openpgp": "^4.5.2"
   },
   "devDependencies": {
     "assert": "^1.4.1",
