@@ -1,10 +1,10 @@
 # Sinopia utils
 
-[![npm version](https://badge.fury.io/js/sinopia-htaccess-gpg-email.svg)](https://badge.fury.io/js/sinopia-htaccess-gpg-email) [![Build Status](https://travis-ci.org/abtris/sinopia-htaccess-gpg-email.svg?branch=master)](https://travis-ci.org/abtris/sinopia-htaccess-gpg-email)
+[![npm version](https://badge.fury.io/js/sinopia-htaccess-gpg-email.svg)](https://badge.fury.io/js/sinopia-htaccess-gpg-email) [![Build Status](https://github.com/abtris/sinopia-htaccess-gpg-email/actions/workflows/node.js.yml/badge.svg)](https://github.com/abtris/sinopia-htaccess-gpg-email/actions)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=abtris/sinopia-htaccess-gpg-email)](https://dependabot.com)
 
 
-Generate password in htaccess format.
+Generate password in [htaccess format](https://httpd.apache.org/docs/2.4/howto/htaccess.html).
 
 ## Test user for GPG
 
