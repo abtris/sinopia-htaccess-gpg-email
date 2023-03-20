@@ -12,13 +12,13 @@
     "url": "https://github.com/abtris/sinopia-htaccess-gpg-email/issues"
   },
   "engines": {
-    "node": ">= 6"
+    "node": ">= 14"
   },
   "dependencies": {
-    "async": "^3.0.1",
+    "async": "^3.2.4",
     "commander": "^10.0.0",
     "mktemp": "^1.0.0",
-    "request": "^2.85.0",
+    "needle": "^3.2.0",
     "openpgp": "^5.2.1"
   },
   "devDependencies": {
