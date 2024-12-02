@@ -24,7 +24,7 @@
   "devDependencies": {
     "assert": "^2.0.0",
     "faker": "^5.2.0",
-    "mocha": "^10.0.0",
+    "mocha": "^11.0.0",
     "should": "^13.2.1"
   },
   "scripts": {
